@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.harmony.cmb</groupId>
-    <artifactId>cloud-word-book</artifactId>
+    <artifactId>cloud-mind-book</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <description>Cloud mind book</description>
 
