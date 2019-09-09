@@ -1,43 +1,45 @@
 package com.mindbook
 
-import io.vertx.core.eventbus.Message
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.launch
+import org.slf4j.LoggerFactory
 import kotlin.reflect.KCallable
 import kotlin.reflect.full.callSuspend
 import kotlin.reflect.full.findAnnotation
 
 open class AutoMappingCoroutineVerticle : CoroutineVerticle() {
 
+    protected val log = LoggerFactory.getLogger(this::class.java)
+
     override suspend fun start() {
         val members = this::class.members
         for (member in members) {
-            val value = member.findAnnotation<Path>()?.value
-            if (value != null && value.isNotBlank()) {
-                doMapping(value, member)
+            val address = member.findAnnotation<Path>()?.value
+            if (address != null && address.isNotBlank()) {
+                bind(address, member)
             }
         }
         doStart()
     }
 
-    protected fun doMapping(path: String, member: KCallable<*>) {
-        val verticle = this
-        vertx.eventBus()
-                .consumer<Message<JsonObject>>(path) { msg ->
-                    launch(vertx.dispatcher()) {
-                        // TODO call suspend
-                        // member.parameters
-                        member.callSuspend(this, msg)
-                        member::class.java
-                        // member.call(msg, verticle, this)
-                    }
-                }
-    }
-
     open suspend fun doStart() {
 
+    }
+
+    protected fun bind(address: String, member: KCallable<*>) {
+        log.info("[{}] bind service: {}", address, member)
+        val verticle = this
+        vertx.eventBus().consumer<JsonObject>(address) { request ->
+            launch(vertx.dispatcher()) {
+                try {
+                    request.reply(member.callSuspend(verticle, request))
+                } catch (e: Throwable) {
+                    request.reply(JsonObject().put("error", 0).put("message", e.message))
+                }
+            }
+        }
     }
 
 }

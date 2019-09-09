@@ -3,7 +3,6 @@ package com.mindbook.verticle
 import com.mindbook.AutoMappingCoroutineVerticle
 import com.mindbook.DeploymentConfiguration
 import com.mindbook.Path
-import com.mindbook.service.Book
 import com.mindbook.service.BookService
 import io.vertx.core.eventbus.Message
 import io.vertx.core.json.JsonObject
@@ -16,11 +15,13 @@ open class BookVerticle : AutoMappingCoroutineVerticle() {
     }
 
     override suspend fun doStart() {
+        bookService = BookService()
     }
 
     @Path("/book/info")
-    suspend fun getBookInfo(message: Message<JsonObject>): Book {
-        return bookService.getBookInfo(message.body().getString("name"))
+    suspend fun getBookInfo(message: Message<JsonObject>): JsonObject {
+        val name = message.body().getString("name", "default")
+        return JsonObject.mapFrom(bookService.getBookInfo(name))
     }
 
 }
