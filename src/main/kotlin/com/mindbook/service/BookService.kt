@@ -1,5 +1,7 @@
 package com.mindbook.service
 
+import com.mindbook.domain.Book
+
 class BookService {
 
     fun getBookInfo(name: String): Book {
@@ -7,5 +9,3 @@ class BookService {
     }
 
 }
-
-data class Book(val name: String)

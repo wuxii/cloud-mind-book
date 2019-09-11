@@ -1,13 +1,11 @@
 package com.mindbook.verticle
 
 import com.mindbook.AutoMappingCoroutineVerticle
-import com.mindbook.DeploymentConfiguration
-import com.mindbook.Path
+import com.mindbook.annotation.Path
 import com.mindbook.service.BookService
 import io.vertx.core.eventbus.Message
 import io.vertx.core.json.JsonObject
 
-@DeploymentConfiguration
 open class BookVerticle : AutoMappingCoroutineVerticle() {
 
     companion object {

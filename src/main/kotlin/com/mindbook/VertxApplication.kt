@@ -1,5 +1,6 @@
 package com.mindbook
 
+import com.mindbook.annotation.Verticles
 import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
 import io.vertx.core.VertxOptions

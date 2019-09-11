@@ -1,5 +1,6 @@
 package com.mindbook
 
+import com.mindbook.annotation.Path
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.dispatcher
