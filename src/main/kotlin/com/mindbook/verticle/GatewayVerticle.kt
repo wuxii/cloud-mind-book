@@ -1,7 +1,9 @@
 package com.mindbook.verticle
 
+import com.mindbook.annotation.Verticle
 import io.vertx.core.http.HttpConnection
 import io.vertx.core.http.HttpServerRequest
+import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.eventbus.requestAwait
 import io.vertx.kotlin.core.http.endAwait
@@ -11,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@Verticle
 class GatewayVerticle : CoroutineVerticle() {
 
     companion object {
@@ -27,7 +30,6 @@ class GatewayVerticle : CoroutineVerticle() {
         log.info("http server listener at port: {}", PORT)
     }
 
-
     private fun mappingRequestHandler(request: HttpServerRequest) {
         val path = request.path()
         val response = request.response()
@@ -35,7 +37,8 @@ class GatewayVerticle : CoroutineVerticle() {
             val message = convertRequestMessage(request)
             log.info("[{}] handle request: {}", path, message)
             val responseMessage = vertx.eventBus().requestAwait<JsonObject>(path, message)
-            response.endAwait(responseMessage.toString())
+            response.putHeader("content-type", "application/json")
+                    .endAwait(responseMessage.toString())
         }
     }
 

@@ -1,15 +1,10 @@
 package com.mindbook
 
-import com.mindbook.annotation.Verticles
-import com.mindbook.verticle.BookVerticle
-import com.mindbook.verticle.GatewayVerticle
+import com.mindbook.annotation.VertxBootApplication
 
-@Verticles([GatewayVerticle::class, BookVerticle::class])
-object MindbookApplication {
+@VertxBootApplication
+open class MindbookApplication
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        VertxApplication.boot(MindbookApplication::class, args)
-    }
-
+fun main(vararg args: String) {
+    VertxApplication.boot(MindbookApplication::class, *args)
 }
