@@ -17,7 +17,8 @@ open class BookVerticle : AutoMappingCoroutineVerticle() {
     @Path("/book/info")
     suspend fun getBookInfo(message: Message<JsonObject>): JsonObject {
         val name = message.body().getString("name", "default")
-        return JsonObject.mapFrom(bookService.getBookInfo(name))
+        val book = bookService.getBookInfo(name)
+        return JsonObject.mapFrom(book)
     }
 
 }

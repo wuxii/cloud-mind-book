@@ -5,7 +5,6 @@ import io.vertx.kotlin.sqlclient.preparedQueryAwait
 import io.vertx.sqlclient.SqlClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 @Service
 class BookService {

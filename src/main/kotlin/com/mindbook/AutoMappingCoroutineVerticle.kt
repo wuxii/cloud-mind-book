@@ -1,6 +1,7 @@
 package com.mindbook
 
 import com.mindbook.annotation.Path
+import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.dispatcher
@@ -37,7 +38,7 @@ open class AutoMappingCoroutineVerticle : CoroutineVerticle() {
                 try {
                     val response = member.callSuspend(verticle, request)
                     log.info("response: {}", response)
-                    request.reply(response.toString())
+                    request.reply(response)
                 } catch (e: Throwable) {
                     log.error("some exception happen.", e)
                     request.reply(JsonObject().put("error", 0).put("message", e.message))

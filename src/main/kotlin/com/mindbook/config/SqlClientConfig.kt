@@ -1,7 +1,7 @@
 package com.mindbook.config
 
-import io.vertx.mysqlclient.MySQLConnectOptions
-import io.vertx.mysqlclient.MySQLPool
+import io.vertx.pgclient.PgConnectOptions
+import io.vertx.pgclient.PgPool
 import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
 import org.springframework.context.annotation.Bean
@@ -12,16 +12,16 @@ class SqlClientConfig {
 
     @Bean
     fun sqlPool(): Pool {
-        val connectOptions = MySQLConnectOptions()
-                .setUser("root")
-                .setPassword(null)
+        val connectOptions = PgConnectOptions()
+                .setUser("postgres")
+                .setPassword("postgres")
                 .setHost("localhost")
-                .setPort(3306)
+                .setPort(5432)
                 .setDatabase("mindbook")
         val poolOptions = PoolOptions()
                 .setMaxSize(100)
                 .setMaxWaitQueueSize(100)
-        return MySQLPool.pool(connectOptions, poolOptions)
+        return PgPool.pool(connectOptions, poolOptions)
     }
 
 }

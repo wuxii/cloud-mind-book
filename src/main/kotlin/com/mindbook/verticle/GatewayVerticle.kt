@@ -3,7 +3,6 @@ package com.mindbook.verticle
 import com.mindbook.annotation.Verticle
 import io.vertx.core.http.HttpConnection
 import io.vertx.core.http.HttpServerRequest
-import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.core.eventbus.requestAwait
 import io.vertx.kotlin.core.http.endAwait
@@ -35,10 +34,10 @@ class GatewayVerticle : CoroutineVerticle() {
         val response = request.response()
         launch {
             val message = convertRequestMessage(request)
-            log.info("[{}] handle request: {}", path, message)
             val responseMessage = vertx.eventBus().requestAwait<JsonObject>(path, message)
+            log.info("[{}] handle request: {}. response: {}", path, message, responseMessage)
             response.putHeader("content-type", "application/json")
-                    .endAwait(responseMessage.toString())
+                    .endAwait(responseMessage.body().encode())
         }
     }
 
