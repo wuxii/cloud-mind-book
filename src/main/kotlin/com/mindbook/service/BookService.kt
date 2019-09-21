@@ -3,14 +3,10 @@ package com.mindbook.service
 import com.mindbook.domain.Book
 import io.vertx.kotlin.sqlclient.preparedQueryAwait
 import io.vertx.sqlclient.SqlClient
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class BookService {
-
-    @Autowired
-    private lateinit var sqlClient: SqlClient
+class BookService(private val sqlClient: SqlClient) {
 
     suspend fun getBookInfo(name: String): Book {
         return sqlClient.preparedQueryAwait("select * from book")

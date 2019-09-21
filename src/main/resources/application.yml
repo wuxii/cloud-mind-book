@@ -1,0 +1,11 @@
+debug: true
+harmony:
+  vertx:
+    sql-client:
+      type: postgres
+      connect:
+        database: mindbook
+        user: postgres
+        password: postgres
+        host: localhost
+        port: 5432

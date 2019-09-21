@@ -37,8 +37,9 @@ open class AutoMappingCoroutineVerticle : CoroutineVerticle() {
             launch(vertx.dispatcher()) {
                 try {
                     val response = member.callSuspend(verticle, request)
-                    log.info("response: {}", response)
-                    request.reply(response)
+                    if (response !is Unit) {
+                        request.reply(Json.encode(response))
+                    }
                 } catch (e: Throwable) {
                     log.error("some exception happen.", e)
                     request.reply(JsonObject().put("error", 0).put("message", e.message))
