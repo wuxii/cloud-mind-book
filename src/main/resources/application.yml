@@ -1,10 +1,12 @@
+debug: true
+
 server:
   port: 9090
 
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/.h2/cmb
+    url: jdbc:h2:file:~/.h2/mindbook
     username: sa
     password: null
   jpa:
