@@ -5,6 +5,7 @@ import com.mindbook.word.domain.Word;
 import com.mindbook.word.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -33,6 +34,11 @@ public class WordController {
     @DeleteMapping("/del/{id}")
     public Mono<Void> delete(@NotNull @PathVariable(name = "id") Long id) {
         return wordService.deleteById(id);
+    }
+
+    @GetMapping("/recommend")
+    public Flux<Word> recommend() {
+        return wordService.recommend();
     }
 
 }
