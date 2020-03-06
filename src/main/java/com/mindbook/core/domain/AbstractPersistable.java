@@ -8,7 +8,7 @@ import org.springframework.data.domain.Persistable;
 
 @EqualsAndHashCode()
 @Data
-public class AbstractPersistable implements Persistable {
+public class AbstractPersistable implements Persistable<Long> {
 
     @Include
     @Id
